@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7382163345108155359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2083657428469247655}
+  - component: {fileID: 5382231233385010688}
+  m_Layer: 0
+  m_Name: LabyrinthBuilder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2083657428469247655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7382163345108155359}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5382231233385010688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7382163345108155359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4a5a7c044b447f40918cea4146f84fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubeBlack: {fileID: 7209290176751519628, guid: 5d2213674c42e984bb6d815548dc0fb3, type: 3}
+  cubeWhite: {fileID: 5552046098534803833, guid: 25da995cda409ee4c9f2a9c99158f3f8, type: 3}
+  platform: {fileID: 4776773291123394626, guid: 5511cf17681859048a3603fa60276840, type: 3}
+  goalPrefab: {fileID: 8841154881324794639, guid: 14a962b8ce7040d4e9890b91d757a28e, type: 3}
+  ball: {fileID: 425237633494281566, guid: 2ac85e08180223f4e83aecd947a49036, type: 3}
+  labyrinth: {fileID: 7382163345108155359}
+  rows: 7
+  columns: 10
