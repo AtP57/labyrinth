@@ -23,20 +23,6 @@ public class Builder : MonoBehaviour
     private int[,] _labyrinthData;
     private GameObject playerBall;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Init()
     {
         this.generatorAlgorithm = GlobalVariables.selectedAlgorithm;
@@ -53,17 +39,17 @@ public class Builder : MonoBehaviour
     private void Build()
     {
         // Declaring an offset, so the middle of the labyrinth will be at 0,0
-        Vector3 _offsetPivot = new Vector3(-(float)_labyrinthData.GetLength(0) / 2 + 0.5f, 0, -(float)_labyrinthData.GetLength(1) / 2 + 0.5f);
+        Vector3 offsetValue = new Vector3(-(float)_labyrinthData.GetLength(0) / 2 + 0.5f, 0, -(float)_labyrinthData.GetLength(1) / 2 + 0.5f);
 
         // Offset builder, so the center of the maze will align with the center of rotation
-        transform.position = _offsetPivot;
+        transform.position = offsetValue;
 
         // Placing game objects
         for (int i = 0; i < _labyrinthData.GetLength(0); i++)
         {
             for (int j = 0; j < _labyrinthData.GetLength(1); j++)
             {
-                transform.position = new Vector3(i, 0.6f, j) + _offsetPivot;
+                transform.position = new Vector3(i, 0.6f, j) + offsetValue;
                 PlaceElement(_labyrinthData[i, j]);
             }
         }
@@ -106,58 +92,56 @@ public class Builder : MonoBehaviour
 
     private void PlaceBall()
     {
-        if (_labyrinthData[1, (_labyrinthData.GetLength(1) - 3) / 2] == 0)
+        if (_labyrinthData[1, (_labyrinthData.GetLength(1) - 1) / 2] == 0)
         {
-            _labyrinthData[1, (_labyrinthData.GetLength(1) - 3) / 2] = 3;
+            _labyrinthData[1, (_labyrinthData.GetLength(1) - 1) / 2] = 3;
         }
         else
         {
-            _labyrinthData[1, (_labyrinthData.GetLength(1) - 1) / 2] = 3;
+            _labyrinthData[1, (_labyrinthData.GetLength(1) - 3) / 2] = 3;
         }
     }
 
 
     private void PlaceGoal()
     {
-        if (_labyrinthData[_labyrinthData.GetLength(0)-2, (_labyrinthData.GetLength(1) - 3) / 2] == 0)
+        if (_labyrinthData[_labyrinthData.GetLength(0)-2, (_labyrinthData.GetLength(1) - 1) / 2] == 0)
         {
-            _labyrinthData[_labyrinthData.GetLength(0)-1, (_labyrinthData.GetLength(1)-3)/2] = 2;
+            _labyrinthData[_labyrinthData.GetLength(0)-1, (_labyrinthData.GetLength(1)-1)/2] = 2;
         }
         else
         {
-            _labyrinthData[_labyrinthData.GetLength(0)-1, (_labyrinthData.GetLength(1)-1)/2] = 2;
+            _labyrinthData[_labyrinthData.GetLength(0)-1, (_labyrinthData.GetLength(1)-3)/2] = 2;
         }
     }
 
     private void SelectAlgorithm(int generatorAlgorithm)
     {
         int algorithmId = generatorAlgorithm;
+
+        // If random algorithm was selected one randomly
         if (algorithmId == 1) {
             Random rand = new Random();
             algorithmId = rand.Next(2,7);
         }
 
+        // Select the algorithm corresponding to the id
         switch (algorithmId)
         {
             case 2:
-                GeneratorDepthFirstSearch gen1 = new GeneratorDepthFirstSearch(heightNodes, widthNodes);
-                _labyrinthData = gen1.labyrinthData;
+                _labyrinthData = new GeneratorDepthFirstSearch(heightNodes, widthNodes).labyrinthData;
                 break;
             case 3:
-                GeneratorWidthFirstSearch gen2 = new GeneratorWidthFirstSearch(heightNodes, widthNodes);
-                _labyrinthData = gen2.labyrinthData;
+                _labyrinthData = new GeneratorWidthFirstSearch(heightNodes, widthNodes).labyrinthData;
                 break;
             case 4:
-                GeneratorIterativeRandomizedPrim gen3 = new GeneratorIterativeRandomizedPrim(heightNodes, widthNodes);
-                _labyrinthData = gen3.labyrinthData;
+                _labyrinthData = new GeneratorIterativeRandomizedPrim(heightNodes, widthNodes).labyrinthData;
                 break;
             case 5:
-                GeneratorTessellation gen4 = new GeneratorTessellation(heightNodes,widthNodes);
-                _labyrinthData = gen4.labyrinthData;
+                _labyrinthData = new GeneratorTessellation(heightNodes, widthNodes).labyrinthData;
                 break;
             case 6:
-                GeneratorAldousBroder gen5 = new GeneratorAldousBroder(heightNodes,widthNodes);
-                _labyrinthData = gen5.labyrinthData;
+                _labyrinthData = new GeneratorAldousBroder(heightNodes, widthNodes).labyrinthData;
                 break;                    
             default:
                 Debug.Log("Invalid generator id"); 
@@ -180,6 +164,7 @@ public class Builder : MonoBehaviour
                 goal.transform.SetParent(transform.parent);
                 goal.GetComponent<GoalBehaviour>().ball = playerBall;
                 break;
+            //Place Ball
             case 3:
                 playerBall = Instantiate(ball, transform.position, transform.rotation);
                 playerBall.transform.SetParent(transform.parent);

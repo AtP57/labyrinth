@@ -94,10 +94,10 @@ namespace LabyrinthGenerator
             return to_return;
         }
 
-        //carves path between 2 neigbouring nodes
+        //carves path between 2 neighbouring nodes
         protected void carvePath(Node a, Node b)
         {
-            //MonoBehaviour.print("carving path from " + a.i + "," + a.j + " to " + b.i + "," + b.j);
+            // Carve path betwen two neighboring nodes, tranlate node position to the labyrinth matrix
             this.labyrinthData[(((2 * a.x) + 1) + ((2 * b.x) + 1)) / 2, (((2 * a.y) + 1) + ((2 * b.y) + 1)) / 2] = 0;
         }
 
@@ -113,121 +113,6 @@ namespace LabyrinthGenerator
                 this.y = j;
                 this.visited = false;
             }
-        }
-    }
-    public class Generator1
-    {
-        private int width;
-        private int height;
-        private int[,] labyrinthData;
-        private System.Random random;
-
-        public Generator1(int width, int height)
-        {
-            this.width = width;
-            this.height = height;
-            labyrinthData = new int[width, height];
-            random = new System.Random();
-            labyrinthData = Generate();
-        }
-
-        public int[,] Generate()
-        {
-            // Initialize the maze with walls.
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    labyrinthData[i, j] = 1; // 1 represents a wall.
-                }
-            }
-
-            // Start carving the maze from a random point.
-            int startX = random.Next(1, width - 1);
-            int startY = random.Next(1, height - 1);
-            CarvePassage(startX, startY);
-
-            return labyrinthData;
-        }
-
-        private void CarvePassage(int x, int y)
-        {
-            labyrinthData[x, y] = 0; // 0 represents an open passage.
-
-            // Define the order of neighbors to explore (randomized).
-            int[] dx = { 1, -1, 0, 0 };
-            int[] dy = { 0, 0, 1, -1 };
-            int[] randomIndices = { 0, 1, 2, 3 };
-            Shuffle(randomIndices);
-
-            // Explore the neighbors in a randomized order.
-            for (int i = 0; i < 4; i++)
-            {
-                int nx = x + dx[randomIndices[i]];
-                int ny = y + dy[randomIndices[i]];
-
-                // Check if the neighbor is within the maze bounds and has not been visited.
-                if (nx > 0 && nx < width - 1 && ny > 0 && ny < height - 1 && labyrinthData[nx, ny] == 1)
-                {
-                    // Check if the neighbor has at least one uncarved neighbor (not isolated).
-                    int uncarvedNeighbors = CountUncarvedNeighbors(nx, ny);
-                    if (uncarvedNeighbors >= 2)
-                    {
-                        labyrinthData[nx, ny] = 0; // Carve the passage to the neighbor.
-                        CarvePassage(nx, ny); // Continue the depth-first search from the neighbor.
-                    }
-                }
-            }
-        }
-
-        private int CountUncarvedNeighbors(int x, int y)
-        {
-            int[] dx = { 1, -1, 0, 0 };
-            int[] dy = { 0, 0, 1, -1 };
-            int count = 0;
-
-            for (int i = 0; i < 4; i++)
-            {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-                if (labyrinthData[nx, ny] == 1)
-                {
-                    count++;
-                }
-            }
-
-            return count;
-        }
-
-        // Helper function to shuffle an array.
-        private void Shuffle(int[] array)
-        {
-            int n = array.Length;
-            for (int i = 0; i < n; i++)
-            {
-                int r = i + random.Next(n - i);
-                int temp = array[r];
-                array[r] = array[i];
-                array[i] = temp;
-            }
-        }
-
-        public int[,] getLabyrinthData()
-        {
-            return labyrinthData;
-        }
-
-        public int getSum()
-        {
-            int sum = 0;
-            for (int i = 0; i <  labyrinthData.GetLength(0); i++)
-            {
-                for (int j = 0; j <  labyrinthData.GetLength(1); j++)
-                {
-                    sum += labyrinthData[i, j];
-                }
-            }
-            return sum;
         }
     }
 

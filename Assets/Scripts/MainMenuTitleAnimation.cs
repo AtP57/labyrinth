@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MainMenutitleAnimation : MonoBehaviour
 {
-    public float animationSpeed = 1.01f;
-    private bool animationDirection = true;
     private RectTransform rt;
+    private bool animationDirection = true;
+    public float animationSpeed = 1.2f; // Adjust this for speed
 
     // Start is called before the first frame update
     void Start()
@@ -17,16 +17,22 @@ public class MainMenutitleAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (rt.localScale.x > 1.1f || rt.localScale.x < 0.95f) 
+        // Check bounds
+        if (rt.localScale.x > 1.1f)
         {
-            animationDirection = !animationDirection;
-        } 
-        if (animationDirection)
-        {
-            rt.localScale = new Vector3(rt.localScale.x, rt.localScale.y, rt.localScale.z) * (animationSpeed);
-        } else
-        {
-            rt.localScale = new Vector3(rt.localScale.x, rt.localScale.y, rt.localScale.z) * (2-animationSpeed);
+            animationDirection = false;
         }
+
+        if (rt.localScale.x < 0.95f)
+        {
+            animationDirection = true;
+        }
+
+        // Calculate scaling factor
+        float scaleFactor = animationDirection ? animationSpeed : (2 - animationSpeed);
+
+        // Apply scaling with Time.deltaTime
+        float scaleAdjustment = Mathf.Pow(scaleFactor, Time.deltaTime);
+        rt.localScale = rt.localScale * scaleAdjustment;
     }
 }
